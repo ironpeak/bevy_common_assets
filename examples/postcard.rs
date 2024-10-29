@@ -8,7 +8,6 @@ fn main() {
             DefaultPlugins,
             PostcardAssetPlugin::<Level>::new(&["level.postcard"]),
         ))
-        .insert_resource(Msaa::Off)
         .init_state::<AppState>()
         .add_systems(Startup, setup)
         .add_systems(Update, spawn_level.run_if(in_state(AppState::Loading)))
@@ -20,7 +19,7 @@ fn setup(mut commands: Commands, asset_server: Res<AssetServer>) {
     commands.insert_resource(level);
     let tree = ImageHandle(asset_server.load("tree.png"));
     commands.insert_resource(tree);
-    commands.spawn(Camera2dBundle::default());
+    commands.spawn(Camera2d);
 }
 
 fn spawn_level(
@@ -32,11 +31,14 @@ fn spawn_level(
 ) {
     if let Some(level) = levels.remove(level.0.id()) {
         for position in level.positions {
-            commands.spawn(SpriteBundle {
-                transform: Transform::from_translation(position.into()),
-                texture: tree.0.clone(),
-                ..default()
-            });
+            commands.spawn((
+                Sprite {
+                    image: tree.0.clone(),
+                    ..default()
+                },
+                Transform::from_translation(position.into()),
+                Msaa::Off,
+            ));
         }
         state.set(AppState::Level);
     }
