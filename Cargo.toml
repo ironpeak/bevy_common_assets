@@ -30,11 +30,11 @@ serde_yaml = { version = "0.9", optional = true }
 serde_json = { version = "1", optional = true }
 rmp-serde = { version = "1", optional = true }
 csv = { version = "1", optional = true }
-thiserror = "2"
-quick-xml = { version = "0.37", features = [ "serialize" ], optional = true }
+thiserror = "1"
+quick-xml = { version = "0.37", features = ["serialize"], optional = true }
 serde = { version = "1" }
 anyhow = { version = "1" }
-postcard = {version = "1", features = ["use-std"], optional = true}
+postcard = { version = "1", features = ["use-std"], optional = true }
 
 [dev-dependencies]
 bevy = { version = "0.16" }
@@ -92,4 +92,10 @@ required-features = ["ron", "json"]
 [[example]]
 name = "asset_savers"
 path = "examples/asset_savers/asset_savers.rs"
-required-features = ["ron", "json", "postcard", "bevy/file_watcher", "bevy/asset_processor"]
+required-features = [
+    "ron",
+    "json",
+    "postcard",
+    "bevy/file_watcher",
+    "bevy/asset_processor",
+]
